@@ -12,7 +12,7 @@ phases:
     pre_build:
         commands:
             - echo running unit test cases
-            - ng test
+            - ng test --browsers ChromeHeadless
     build:
         commands:
             - echo Build started on `date`
