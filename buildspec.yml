@@ -16,7 +16,7 @@ phases:
     post_build:
          commands:
             - aws s3 rm s3://${S3_BUCKET}/*
-            - echo Build completed on `date`
+            - echo Build Completed on `date`
 artifacts:
     files:
         - '**/*'
