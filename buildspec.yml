@@ -21,6 +21,7 @@ phases:
          commands:
             - aws s3 rm s3://${S3_BUCKET}/ --recursive
             - aws s3 cp dist s3://${S3_BUCKET} --recursive
+            - aws cloudfront create-invalidation --distribution-id E2Y1HZN7ACMNMH \ --paths /*
             - echo Build Completed on `date`
 artifacts:
     files:
