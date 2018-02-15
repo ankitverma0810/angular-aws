@@ -10,7 +10,6 @@
       "assets": [
         "assets",
         "favicon.ico",
-        "scripts",
         "appspec.yml"
       ],
       "index": "index.html",
