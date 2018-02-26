@@ -1,7 +1,7 @@
 node {
-    // uncomment these 2 lines and edit the name 'node-6.9.5' according to what you choose in configuration
-    def nodeHome = tool name: 'node-9.6.1', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-    env.PATH = "${nodeHome}/bin:${env.PATH}"
+    withEnv(["PATH+NODE=${tool name: 'node-5.10.1', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'}/bin"]) {
+      sh 'node -v'
+    }
 
     stage('check tools') {
         sh "node -v"
