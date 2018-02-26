@@ -1,58 +1,26 @@
-#!groovy
-
-properties(
-    [
-        [$class: 'BuildDiscarderProperty', strategy:
-          [$class: 'LogRotator', artifactDaysToKeepStr: '14', artifactNumToKeepStr: '5', daysToKeepStr: '30', numToKeepStr: '60']],
-        pipelineTriggers(
-          [
-              pollSCM('H/15 * * * *'),
-              cron('@daily'),
-          ]
-        )
-    ]
-)
 node {
-    stage('Checkout') {
-        //disable to recycle workspace data to save time/bandwidth
-        deleteDir()
+    // uncomment these 2 lines and edit the name 'node-6.9.5' according to what you choose in configuration
+    def nodeHome = tool name: 'node-6.9.5', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    env.PATH = "${nodeHome}/bin:${env.PATH}"
+
+    stage('check tools') {
+        sh "node -v"
+        sh "npm -v"
+    }
+
+    stage('checkout') {
         checkout scm
-
-        //enable for commit id in build number
-        //env.git_commit_id = sh returnStdout: true, script: 'git rev-parse HEAD'
-        //env.git_commit_id_short = env.git_commit_id.take(7)
-        //currentBuild.displayName = "#${currentBuild.number}-${env.git_commit_id_short}"
     }
 
-    stage('NPM Install') {
-        withEnv(["NPM_CONFIG_LOGLEVEL=warn"]) {
-            sh 'npm install'
-        }
+    stage('npm install') {
+        sh "npm install"
     }
 
-    stage('Test') {
-        withEnv(["CHROME_BIN=/usr/bin/chromium-browser"]) {
-          sh 'ng test --progress=false --watch false'
-        }
-        junit '**/test-results.xml'
+    stage('unit tests') {
+        sh "ng test --watch false"
     }
 
-    stage('Lint') {
-        sh 'ng lint'
-    }
-
-    stage('Build') {
-        milestone()
-        sh 'ng build --prod --aot --sm --progress=false'
-    }
-
-    stage('Archive') {
-        sh 'tar -cvzf dist.tar.gz --strip-components=1 dist'
-        archive 'dist.tar.gz'
-    }
-
-    stage('Deploy') {
-        milestone()
-        echo "Deploying..."
+    stage('protractor tests') {
+        sh "npm run e2e"
     }
 }
