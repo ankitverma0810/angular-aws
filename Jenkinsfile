@@ -1,8 +1,26 @@
 node {
-    env.NODEJS_HOME = "${tool 'Node 6.x'}"
-    // on linux / mac
-    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
-    // on windows
-    env.PATH="${env.NODEJS_HOME};${env.PATH}"
-    sh 'npm --version'
+    // uncomment these 2 lines and edit the name 'node-6.9.5' according to what you choose in configuration
+    def nodeHome = tool name: 'NodeJS 9.6.1', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    env.PATH = "${nodeHome}/bin:${env.PATH}"
+
+    stage('check tools') {
+        sh "node -v"
+        sh "npm -v"
+    }
+
+    stage('checkout') {
+        checkout scm
+    }
+
+    stage('npm install') {
+        sh "npm install"
+    }
+
+    stage('unit tests') {
+        sh "ng test --watch false"
+    }
+
+    stage('protractor tests') {
+        sh "npm run e2e"
+    }
 }
