@@ -19,8 +19,4 @@ node {
     stage('unit tests') {
         sh "ng test --watch=false --browsers PhantomJS"
     }
-
-    stage('build') {
-        sh "ng build --prod --env=dev"
-    }
 }
