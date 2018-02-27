@@ -23,4 +23,13 @@ node {
     stage('build') {
         sh "ng build --prod --env=dev"
     }
+
+    stage('Archive') {
+        sh 'tar -cvzf dist.tar.gz --strip-components=1 dist'
+        archive 'dist.tar.gz'
+    }
+
+    stage('Deploy') {
+        echo "Deploying..."
+    }
 }
