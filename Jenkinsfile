@@ -17,10 +17,10 @@ node {
     }
 
     stage('unit tests') {
-        sh "ng test --watch false"
+        sh "ng test --watch=false --browsers PhantomJS"
     }
 
-    stage('protractor tests') {
-        sh "npm run e2e"
+    stage('build') {
+        sh "ng build --prod --env=dev"
     }
 }
