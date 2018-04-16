@@ -31,7 +31,6 @@ node {
 
     stage('Deploy') {
         echo "Deploy..."
-        sh "sudo tar -xf dist.tar.gz --directory /usr/share/nginx/html"
     }
 
     stage('Automation') {
