@@ -24,9 +24,14 @@ node {
         sh "ng build --prod --env=dev"
     }
 
+    stage('Archive') {
+        sh 'tar -cvzf dist.tar.gz --strip-components=1 dist'
+        archive 'dist.tar.gz'
+    }
+
     stage('Deploy') {
         echo "Deploy..."
-        sh "cp dist/* /usr/share/nginx/html"
+        sh "/opt/test.sh"
     }
 
     stage('Automation') {
