@@ -31,7 +31,8 @@ node {
 
     stage('Deploy') {
         echo "Deploy..."
-        sh "/opt/test.sh"
+        sh "rm -rf /usr/share/nginx/html/*"
+        sh "tar -xvzf dist.tar.gz --strip-components=1 --directory /usr/share/nginx/html"
     }
 
     stage('Automation') {
