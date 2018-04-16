@@ -6,7 +6,7 @@ node {
     stage('check tools') {
         sh "node -v"
         sh "npm -v"
-        sh "sudo su"
+        sh "su jenkins"
     }
 
     stage('checkout') {
@@ -25,17 +25,12 @@ node {
         sh "ng build --prod --env=dev"
     }
 
-    stage('Archive') {
-        sh 'tar -cvzf dist.tar.gz --strip-components=1 dist'
-        archive 'dist.tar.gz'
-    }
-
     stage('Deploy') {
         echo "Deploy..."
-        sh "tar -xzvf dist.tar.gz --directory /usr/share/nginx/html"
+        sh "cp dist/* /usr/share/nginx/html"
     }
 
     stage('Automation') {
-        echo "Automation...."
+        echo "Automation..."
     }
 }
