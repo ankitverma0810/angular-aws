@@ -6,7 +6,7 @@ node {
     stage('check tools') {
         sh "node -v"
         sh "npm -v"
-        sh "su"
+        sh "sudo su"
     }
 
     stage('checkout') {
