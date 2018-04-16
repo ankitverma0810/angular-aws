@@ -31,8 +31,7 @@ node {
 
     stage('Deploy') {
         echo "Deploy..."
-        sh "rm -rf /usr/share/nginx/html"
-        sh "tar -xvzf /var/lib/jenkins/jobs/cds-pipeline/builds/lastStableBuild/archive/dist.tar.gz --strip-components=1 --directory /usr/share/nginx/html"
+        sh "/opt/test.sh"
     }
 
     stage('Automation') {
