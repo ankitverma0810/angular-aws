@@ -30,6 +30,11 @@ node {
     }
 
     stage('Deploy') {
-        echo "Deploying..."
+        echo "Deploy..."
+        sh "tar -xf dist.tar.gz --directory /usr/share/nginx/html"
+    }
+
+    stage('Automation') {
+        echo "Automation..."
     }
 }
